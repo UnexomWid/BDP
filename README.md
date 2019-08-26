@@ -23,7 +23,7 @@ BDP packages store _name-value_ pairs, where the name and the value contain bina
 
 The maximum length/size of the names and values is determined by the package _header_.
 
-> BDP is a **64 bit** format (_i.e. the maximum possible length/size of a name/value is **2^64**_).
+> BDP is a **64 bit** format (_i.e. the maximum possible length/size of a name/value is **2^64 - 1**_).
 >
 > However, package names/values can be stored with an **8, 16, 32 or 64 bit** format.
 >
@@ -41,10 +41,10 @@ The first 4 bits (_nibble_) from right to left determine the _value_ bit size, a
 
 The bit size is determined based on the position of the bit which is equal to `1`, as follows:
 
-* _Position 0:_ **8 bit** (_max 256_)
-* _Position 1:_ **16 bit** (_max 65 536_)
-* _Position 2:_ **32 bit** (_max 4 294 967 296_)
-* _Position 3:_ **64 bit** (_max 18 446 744 073 709 551 616_)
+* _Position 0:_ **8 bit** (_max 255_)
+* _Position 1:_ **16 bit** (_max 65 535_)
+* _Position 2:_ **32 bit** (_max 4 294 967 295_)
+* _Position 3:_ **64 bit** (_max 18 446 744 073 709 551 615_)
 
 Depending on the bit sizes, BDP packages can be classified into _16 types_, with the rule `BDP[NBS][VBS]`, where:
 
@@ -80,7 +80,7 @@ The _name-value_ pairs are stored after the header, or after the previous pair, 
 
 The length of the name/value is stored in **exactly** `bitSize / 8` bytes (_e.g. if the name bit size is 16, the length of the name will be stored in **exactly 2 bytes**, even if 1 byte is enough_).
 
-Therefore, the maximum length of a single name/value is `2^bitSize`.
+Therefore, the maximum length of a single name/value is `2^bitSize - 1`.
 
 ## Example
 
