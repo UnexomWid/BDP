@@ -94,5 +94,5 @@ This is an arbitrary **BDP832** package which contains information about a user 
 > Value Bit Size: **32**
 
 <p align="center">
-   <img src="img/e832.png" alt="BDP">
+   <img src="img/bdp832.png" alt="BDP">
 </p>
