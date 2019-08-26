@@ -20,6 +20,13 @@
 
 #include "bdp.h"
 
+/// The magic BDP value, which is located at the beginning of every BDP package.
+const char* MAGIC_VALUE = "BDP";
+/// The magic BDP value length.
+const uint8_t MAGIC_VALUE_LENGTH = 3u;
+/// The default size of the buffer used to copy data from one stream to another.
+const uint64_t DEFAULT_BUFFER_SIZE = 16384u;
+
 bdp::Header::Header(uint8_t nlbs, uint8_t vlbs) : NAME_MAX_LENGTH(getMaxLength(nlbs)),
                                                   VALUE_MAX_LENGTH(getMaxLength(vlbs)),
                                                   NAME_LENGTH_BIT_SIZE(nlbs),

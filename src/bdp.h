@@ -29,13 +29,6 @@
 /// Contains functions and structures used for working with BDP packages.
 namespace bdp {
 
-    /// The magic BDP value, which is located at the beginning of every BDP package.
-    const char* MAGIC_VALUE = "BDP";
-    /// The magic BDP value length.
-    const uint8_t MAGIC_VALUE_LENGTH = 3u;
-    /// The default size of the buffer used to copy data from one stream to another.
-    const uint64_t DEFAULT_BUFFER_SIZE = 16384u;
-
     /// The header of a BDP package, which contains package metadata.
     struct Header {
         /**
