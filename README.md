@@ -23,7 +23,7 @@ BDP packages store _name-value_ pairs, where the name and the value contain bina
 
 The maximum length/size of the names and values is determined by the package _header_.
 
-> BDP is a **64 bit** format (_i.e. the maximum possible length/size of a name/value is **2^64 - 1**_).
+> BDP is a **64 bit** format (_i.e. the maximum possible length/size of a name/value is **2^64**_).
 >
 > However, package names/values can be stored with an **8, 16, 32 or 64 bit** format.
 >
@@ -63,7 +63,7 @@ Depending on the bit sizes, BDP packages can be classified into _16 types_, with
 | BDP1616      | 16            | 16             | 00100010 |
 | BDP1632      | 16            | 32             | 00100100 |
 | BDP1664      | 16            | 64             | 00101000 |
-| BDP328       | 32            | 8              | 01000008 |
+| BDP328       | 32            | 8              | 01000001 |
 | BDP3216      | 32            | 16             | 01000010 |
 | BDP3232      | 32            | 32             | 01000100 |
 | BDP3264      | 32            | 64             | 01001000 |
