@@ -2,12 +2,12 @@
   <img src="img/logo.png" alt="BDP">
 </p>
 
-# About <img align="right" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=C%2B%2B" alt="C++ 17" /> 
+# About <a href="https://en.wikipedia.org/wiki/C%2B%2B17"><img align="right" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=C%2B%2B" alt="C++ 17" /></a>
 BDP (_Binary Data Package_) is a basic 64 bit packaging format for binary data.
 
 This is a cross-platform C++ implementation of BDP.
 
-# License <img align="right" src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" />
+# License <a href="https://github.com/UnexomWid/bdp/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" /></a>
 BDP was created by [UnexomWid](http://unexomwid.me).
 
 BDP and all pieces of software that interact with BDP are licensed under the [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
