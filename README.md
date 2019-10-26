@@ -3,14 +3,14 @@
 </p>
 
 # About <a href="https://cmake.org/cmake/help/v3.0/release/3.0.0.html"><img align="right" src="https://img.shields.io/badge/CMake-3.0-CCCCCD?logo=CMake" alt="CMake 3.0" /></a><a href="https://en.wikipedia.org/wiki/C%2B%2B17"><img align="right" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=C%2B%2B" alt="C++ 17" /></a>
-BDP (_Binary Data Package_) is a basic 64 bit packaging format for binary data.
+**BDP** (_Binary Data Package_) is a basic 64 bit packaging format for binary data.
 
 This is a cross-platform C++ implementation of BDP.
 
-# License <a href="https://github.com/UnexomWid/bdp/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" /></a>
-BDP was created by [UnexomWid](http://unexomwid.me).
+# License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+BDP was created by [UnexomWid](https://uw.exom.dev).
 
-BDP and all pieces of software that interact with BDP are licensed under the [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
+BDP is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
 
 # Releases
 
