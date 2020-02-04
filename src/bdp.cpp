@@ -157,19 +157,27 @@ BDP::Header BDP::readHeader(std::istream &input) {
 
     for(uint8_t i = 7u; i >= 4u; --i) {
         if(lengthBitSizes[0] & (1u << i)) {
-            nameLengthBitSize = i == 7u ? 64u :
-                                 i == 6u ? 32u :
-                                 i == 5u ? 16u :
-                                 8u;
+            if(i == 7u)
+                nameLengthBitSize = 64u;
+            else if(i == 6u)
+                nameLengthBitSize = 32u;
+            else if(i == 5u)
+                nameLengthBitSize = 16u;
+            else nameLengthBitSize = 8u;
+
             break;
         }
     }
     for(uint8_t i = 3u; i >= 0u; --i) {
         if (lengthBitSizes[0] & (1u << i)) {
-            valueLengthBitSize = i == 3u ? 64u :
-                                 i == 2u ? 32u :
-                                 i == 1u ? 16u :
-                                 8u;
+            if(i == 3u)
+                valueLengthBitSize = 64u;
+            else if(i == 2u)
+                valueLengthBitSize = 32u;
+            else if(i == 1u)
+                valueLengthBitSize = 16u;
+            else valueLengthBitSize = 8u;
+
             break;
         }
     }
