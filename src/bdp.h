@@ -20,8 +20,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef TMP_BDP_H
-#define TMP_BDP_H
+#ifndef BDP_H_INCLUDED
+#define BDP_H_INCLUDED
 
 #include <cstdint>
 #include <cstring>
@@ -29,7 +29,7 @@
 #include <ostream>
 
 /// Contains functions and structures used for working with BDP packages.
-namespace bdp {
+namespace BDP {
 
     /// The header of a BDP package, which contains package metadata.
     struct Header {
