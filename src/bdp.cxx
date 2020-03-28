@@ -20,7 +20,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "bdp.h"
+#include "bdp.hxx"
 
 /// The magic BDP value, which is located at the beginning of every BDP package.
 const char* MAGIC_VALUE = "BDP";

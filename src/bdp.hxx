@@ -20,8 +20,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef BDP_H_INCLUDED
-#define BDP_H_INCLUDED
+#ifndef BDP_HXX_INCLUDED
+#define BDP_HXX_INCLUDED
 
 #include <cstdint>
 #include <cstring>
