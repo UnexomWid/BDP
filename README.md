@@ -8,9 +8,7 @@
 This is a cross-platform C++ implementation of BDP.
 
 # License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
-BDP was created by [UnexomWid](https://uw.exom.dev).
-
-BDP is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
+The BDP format was created by [UnexomWid](https://uw.exom.dev). The format and this C++ implementation are both licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
 
 # Releases
 
@@ -19,11 +17,11 @@ BDP is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LIC
 None.
 
 # BDP
-BDP packages store _name-value_ pairs, where the name and the value contain binary data (_i.e. they can contain plain text, files etc_).
+BDP packages store _name-value_ pairs, where the name and the value contain binary data (_i.e. they can contain plain text, files, etc_).
 
-The maximum length/size of the names and values is determined by the package _header_.
+The maximum size of the names and values is determined by the package _header_.
 
-> BDP is a **64 bit** format (_i.e. the maximum possible length/size of a name/value is **2^64 - 1**_).
+> BDP is a **64 bit** format (_i.e. the maximum possible size of a name/value is **2^64 - 1**_).
 >
 > However, package names/values can be stored with an **8, 16, 32 or 64 bit** format.
 >
@@ -37,7 +35,7 @@ The magic value is **24 bits** (**3 bytes**) long.
 ## Header
 The header is stored after the magic value, and it is **8 bits** (**1 byte**) long. It contains the _name_ and _value_ **bit sizes**.
 
-The first 4 bits (_nibble_) from right to left determine the _value_ bit size, and the last 4 bits (_nibble_) determine the _name_ bit size. Each nibble contains **exactly** 1 bit equal to `1`.
+The first 4 bits from right to left determine the _value_ bit size, and the last 4 bits  determine the _name_ bit size. Each 4-bit group contains **exactly** 1 bit equal to `1`.
 
 The bit size is determined based on the position of the bit which is equal to `1`, as follows:
 
@@ -87,7 +85,7 @@ Therefore, the maximum length of a single name/value is `2^bitSize - 1`.
 This is an arbitrary **BDP832** package which contains information about a user (_2 name-value pairs_):
 
 * The full name of the user
-* The avatar (_16x16 PNG_) of the user
+* The avatar of the user (_16x16 PNG_)
 
 > Name Bit Size: **8**
 >
