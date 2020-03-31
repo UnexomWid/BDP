@@ -108,7 +108,7 @@ uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, const u
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, const uint8_t* name, uint64_t nameLength, const uint8_t* value, uint64_t valueLength) {
     return writeName(header, output, name, nameLength) +
-           writeValue(header, output, value, valueLength);
+           writeValue(header, output + header->NAME_LENGTH_BYTE_SIZE + nameLength, value, valueLength);
 }
 uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, const uint8_t* name, uint64_t nameLength, std::istream &value) {
     return writeName(header, output, name, nameLength) +
@@ -116,7 +116,7 @@ uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, const u
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, const uint8_t* name, uint64_t nameLength, std::istream &value) {
     return writeName(header, output, name, nameLength) +
-           writeValue(header, output, value);
+           writeValue(header, output + header->NAME_LENGTH_BYTE_SIZE + nameLength, value);
 }
 uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, const uint8_t* name, uint64_t nameLength, std::istream &value, uint64_t bufferSize) {
     return writeName(header, output, name, nameLength) +
@@ -124,39 +124,39 @@ uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, const u
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, const uint8_t* name, uint64_t nameLength, std::istream &value, uint64_t bufferSize) {
     return writeName(header, output, name, nameLength) +
-           writeValue(header, output, value, bufferSize);
+           writeValue(header, output + header->NAME_LENGTH_BYTE_SIZE + nameLength, value, bufferSize);
 }
 uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, std::istream &name, const uint8_t* value, uint64_t valueLength) {
     return writeName(header, output, name) +
            writeValue(header, output, value, valueLength);
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, std::istream &name, const uint8_t* value, uint64_t valueLength) {
-    return writeName(header, output, name) +
-           writeValue(header, output, value, valueLength);
+    uint64_t count = writeName(header, output, name);
+    return count + writeValue(header, output + count, value, valueLength);
 }
 uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, std::istream &name, const uint8_t* value, uint64_t valueLength, uint64_t bufferSize) {
     return writeName(header, output, name, bufferSize) +
            writeValue(header, output, value, valueLength);
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, std::istream &name, const uint8_t* value, uint64_t valueLength, uint64_t bufferSize) {
-    return writeName(header, output, name, bufferSize) +
-           writeValue(header, output, value, valueLength);
+    uint64_t count = writeName(header, output, name, bufferSize);
+    return count + writeValue(header, output + count, value, valueLength);
 }
 uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, std::istream &name, std::istream &value) {
     return writeName(header, output, name) +
            writeValue(header, output, value);
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, std::istream &name, std::istream &value) {
-    return writeName(header, output, name) +
-           writeValue(header, output, value);
+    uint64_t count = writeName(header, output, name);
+    return count + writeValue(header, output + count, value);
 }
 uint64_t BDP::writePair(const BDP::Header* header, std::ostream &output, std::istream &name, std::istream &value, uint64_t bufferSize) {
     return writeName(header, output, name, bufferSize) +
            writeValue(header, output, value, bufferSize);
 }
 uint64_t BDP::writePair(const BDP::Header* header, uint8_t* output, std::istream &name, std::istream &value, uint64_t bufferSize) {
-    return writeName(header, output, name, bufferSize) +
-           writeValue(header, output, value, bufferSize);
+    uint64_t count = writeName(header, output, name, bufferSize);
+    return count + writeValue(header, output + count, value, bufferSize);
 }
 
 uint64_t BDP::writeData(uint64_t maxLength, uint8_t lengthByteSize, std::ostream &output, const uint8_t* data, uint64_t dataLength) {
