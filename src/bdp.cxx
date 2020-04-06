@@ -362,7 +362,7 @@ uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, uint8_t* 
 }
 uint64_t BDP::readPair(const BDP::Header* header, uint8_t* input, uint8_t* &name, uint64_t* nameLength, uint8_t* &value, uint64_t* valueLength) {
     return readName(header, input, name, nameLength) +
-           readValue(header, input, value, valueLength);
+           readValue(header, input + header->NAME_LENGTH_BYTE_SIZE + *nameLength, value, valueLength);
 }
 uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, uint8_t* &name, uint64_t* nameLength, std::ostream &value) {
     return readName(header, input, name, nameLength) +
@@ -370,7 +370,7 @@ uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, uint8_t* 
 }
 uint64_t BDP::readPair(const BDP::Header* header, uint8_t* input, uint8_t* &name, uint64_t* nameLength, std::ostream &value, uint64_t* valueLength) {
     return readName(header, input, name, nameLength) +
-           readValue(header, input, value, valueLength);
+           readValue(header, input + header->NAME_LENGTH_BYTE_SIZE + *nameLength, value, valueLength);
 }
 uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, uint8_t* &name, uint64_t* nameLength, std::ostream &value, uint64_t bufferSize) {
     return readName(header, input, name, nameLength) +
@@ -381,8 +381,8 @@ uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, std::ostr
            readValue(header, input, value, valueLength);
 }
 uint64_t BDP::readPair(const BDP::Header* header, uint8_t* input, std::ostream &name, uint64_t* nameLength, uint8_t* &value, uint64_t* valueLength) {
-    return readName(header, input, name, nameLength) +
-           readValue(header, input, value, valueLength);
+    uint64_t count = readName(header, input, name, nameLength);
+    return count + readValue(header, input + count, value, valueLength);
 }
 uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, std::ostream &name, uint8_t* &value, uint64_t* valueLength, uint64_t bufferSize) {
     return readName(header, input, name, bufferSize) +
@@ -393,8 +393,8 @@ uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, std::ostr
            readValue(header, input, value);
 }
 uint64_t BDP::readPair(const BDP::Header* header, uint8_t* input, std::ostream &name, uint64_t* nameLength, std::ostream &value, uint64_t* valueLength) {
-    return readName(header, input, name, nameLength) +
-           readValue(header, input, value, valueLength);
+    uint64_t count = readName(header, input, name, nameLength);
+    return count + readValue(header, input + count, value, valueLength);
 }
 uint64_t BDP::readPair(const BDP::Header* header, std::istream &input, std::ostream &name, std::ostream &value, uint64_t bufferSize) {
     return readName(header, input, name, bufferSize) +
