@@ -481,7 +481,7 @@ bool BDP::isLittleEndian() {
         uint32_t value;
         uint8_t bytes[4];
     } check = { 0x01020304 };
-    return check.bytes[0] == 04;
+    return check.bytes[0] == 0x04;
 }
 
 void BDP::lengthToBytes(uint8_t* destination, uint64_t source, uint8_t count) {
