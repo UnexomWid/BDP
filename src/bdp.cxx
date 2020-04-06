@@ -22,6 +22,8 @@
 
 #include "bdp.hxx"
 
+#include <memory>
+
 /// The magic BDP value, which is located at the beginning of every BDP package.
 const char* MAGIC_VALUE = "BDP";
 /// The magic BDP value length.
@@ -163,11 +165,10 @@ uint64_t BDP::writeData(uint64_t maxLength, uint8_t lengthByteSize, std::ostream
     if(isLittleEndian()) {
         output.write(reinterpret_cast<char*>(&dataLength), lengthByteSize);
     } else {
-        uint8_t *dataLengthBytes = (uint8_t *) malloc(lengthByteSize);
-        lengthToBytes(dataLengthBytes, dataLength, lengthByteSize);
+        auto dataLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
+        lengthToBytes(dataLengthBytes.get(), dataLength, lengthByteSize);
 
         output.write((char*) (&dataLengthBytes[0]), lengthByteSize);
-        free(dataLengthBytes);
     }
 
     output.write((char*) (&data[0]), dataLength);
@@ -187,7 +188,8 @@ uint64_t BDP::writeData(uint64_t maxLength, uint8_t lengthByteSize, std::ostream
     uint64_t inputLength = 0u;
     uint64_t diff;
     uint64_t nextLength;
-    char* buffer = (char*) malloc(bufferSize);
+
+    auto buffer = std::make_unique<char[]>(bufferSize);
 
     // Write a placeholder value, as the actual length is unknown yet.
     output.write(reinterpret_cast<char*>(&inputLength), lengthByteSize);
@@ -196,12 +198,10 @@ uint64_t BDP::writeData(uint64_t maxLength, uint8_t lengthByteSize, std::ostream
 
     while((diff = maxLength - inputLength) != 0u && !data.eof()) {
         nextLength = diff < bufferSize ? diff : bufferSize;
-        data.read(buffer, nextLength);
-        output.write(buffer, data.gcount());
+        data.read(buffer.get(), nextLength);
+        output.write(buffer.get(), data.gcount());
         inputLength += data.gcount();
     }
-
-    free(buffer);
 
     std::streampos endPos = output.tellp();
     output.seekp(lastPos);
@@ -210,11 +210,10 @@ uint64_t BDP::writeData(uint64_t maxLength, uint8_t lengthByteSize, std::ostream
     if(isLittleEndian()) {
         output.write(reinterpret_cast<char*>(&inputLength), lengthByteSize);
     } else {
-        uint8_t* inputLengthBytes = (uint8_t*) malloc(lengthByteSize);
-        lengthToBytes(inputLengthBytes, inputLength, lengthByteSize);
+        auto inputLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
+        lengthToBytes(inputLengthBytes.get(), inputLength, lengthByteSize);
 
         output.write((char*) (&inputLengthBytes[0]), lengthByteSize);
-        free(inputLengthBytes);
     }
 
     output.seekp(endPos);
@@ -249,74 +248,68 @@ uint64_t BDP::writeData(uint64_t maxLength, uint8_t lengthByteSize, uint8_t* out
 }
 
 BDP::Header* BDP::readHeader(std::istream &input) {
-    char* magic = (char*) malloc(MAGIC_VALUE_LENGTH + 1u);
-    input.read(magic, MAGIC_VALUE_LENGTH);
+    auto magic = std::make_unique<char[]>(MAGIC_VALUE_LENGTH + 1u);
+    input.read(magic.get(), MAGIC_VALUE_LENGTH);
 
     magic[MAGIC_VALUE_LENGTH] = '\0';
 
-    if(strcmp(magic, MAGIC_VALUE) != 0)
+    if(strcmp(magic.get(), MAGIC_VALUE) != 0)
         throw std::invalid_argument("input");
 
     uint8_t nameLengthBitSize = 64u;
     uint8_t valueLengthBitSize = 64u;
 
-    uint8_t *lengthBitSizes = (uint8_t*) malloc(1u);
-    input.read((char*) (&lengthBitSizes[0]), 1u);
+    auto lengthBitSizes = std::make_unique<uint8_t>();
+    input.read((char*) lengthBitSizes.get(), 1u);
 
     for(uint8_t i = 7u; i >= 4u; --i, nameLengthBitSize >>= 1)
-        if(lengthBitSizes[0] & (1u << i))
+        if(*lengthBitSizes.get() & (1u << i))
             break;
 
     if(nameLengthBitSize == 0)
         throw std::invalid_argument("input: Invalid package header");
 
     for(uint8_t i = 3u; i >= 0u; --i, valueLengthBitSize >>= 1)
-        if (lengthBitSizes[0] & (1u << i))
+        if (*lengthBitSizes.get() & (1u << i))
             break;
 
     if(valueLengthBitSize == 0)
         throw std::invalid_argument("input: Invalid package header");
-
-    free(lengthBitSizes);
-    free(magic);
 
     return new BDP::Header(nameLengthBitSize, valueLengthBitSize);
 }
 BDP::Header* BDP::readHeader(uint8_t* input) {
     uint64_t index = 0;
 
-    char* magic = (char*) malloc(MAGIC_VALUE_LENGTH + 1u);
-    memcpy(magic, input, MAGIC_VALUE_LENGTH);
+    auto magic = std::make_unique<char[]>(MAGIC_VALUE_LENGTH + 1u);
+    memcpy(magic.get(), input, MAGIC_VALUE_LENGTH);
 
     index += MAGIC_VALUE_LENGTH;
     magic[MAGIC_VALUE_LENGTH] = '\0';
 
-    if(strcmp(magic, MAGIC_VALUE) != 0)
+    if(strcmp(magic.get(), MAGIC_VALUE) != 0)
         throw std::invalid_argument("input");
 
     uint8_t nameLengthBitSize = 64u;
     uint8_t valueLengthBitSize = 64u;
 
-    uint8_t *lengthBitSizes = (uint8_t*) malloc(1u);
-    memcpy(lengthBitSizes, input + index, 1);
+    auto lengthBitSizes = std::make_unique<uint8_t>();
+    memcpy(lengthBitSizes.get(), input + index, 1);
     ++index;
 
     for(uint8_t i = 7u; i >= 4u; --i, nameLengthBitSize >>= 1)
-        if(lengthBitSizes[0] & (1u << i))
+        if(*lengthBitSizes.get() & (1u << i))
             break;
 
     if(nameLengthBitSize == 0)
         throw std::invalid_argument("input: Invalid package header");
 
     for(uint8_t i = 3u; i >= 0u; --i, valueLengthBitSize >>= 1)
-        if (lengthBitSizes[0] & (1u << i))
+        if (*lengthBitSizes.get() & (1u << i))
             break;
 
     if(valueLengthBitSize == 0)
         throw std::invalid_argument("input: Invalid package header");
-
-    free(lengthBitSizes);
-    free(magic);
 
     return new BDP::Header(nameLengthBitSize, valueLengthBitSize);
 }
@@ -404,11 +397,10 @@ uint64_t BDP::readData(uint8_t lengthByteSize, std::istream &input, uint8_t* &ou
     if(isLittleEndian()) {
         input.read(reinterpret_cast<char*>(&length), lengthByteSize);
     } else {
-        uint8_t *outputLengthBytes = (uint8_t *) malloc(lengthByteSize);
-        input.read((char*) &(outputLengthBytes[0]), lengthByteSize);
+        auto outputLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
+        input.read((char*) outputLengthBytes.get(), lengthByteSize);
 
-        bytesToLength(length, outputLengthBytes, lengthByteSize);
-        free(outputLengthBytes);
+        bytesToLength(length, outputLengthBytes.get(), lengthByteSize);
     }
 
     input.read((char*) (&output[0]), length);
@@ -438,24 +430,21 @@ uint64_t BDP::readData(uint8_t lengthByteSize, std::istream &input, std::ostream
     if(isLittleEndian()) {
         input.read(reinterpret_cast<char*>(&length), lengthByteSize);
     } else {
-        uint8_t *outputLengthBytes = (uint8_t *) malloc(lengthByteSize);
-        input.read((char *) &(outputLengthBytes[0]), lengthByteSize);
+        auto outputLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
+        input.read((char*) outputLengthBytes.get(), lengthByteSize);
 
-        bytesToLength(length, outputLengthBytes, lengthByteSize);
-        free(outputLengthBytes);
+        bytesToLength(length, outputLengthBytes.get(), lengthByteSize);
     }
 
-    char* buffer = (char*) malloc(bufferSize);
+    auto buffer = std::make_unique<char[]>(bufferSize);
     uint64_t nextLength;
 
     while(length > 0u && !input.eof()) {
         nextLength = length < bufferSize ? length : bufferSize;
-        input.read(buffer, nextLength);
-        output.write(buffer, input.gcount());
+        input.read(buffer.get(), nextLength);
+        output.write(buffer.get(), input.gcount());
         length -= input.gcount();
     }
-
-    free(buffer);
 
     return lengthByteSize + length;
 }
@@ -495,7 +484,7 @@ bool BDP::isLittleEndian() {
     return check.bytes[0] == 04;
 }
 
-void BDP::lengthToBytes(uint8_t *&destination, uint64_t source, uint8_t count) {
+void BDP::lengthToBytes(uint8_t* destination, uint64_t source, uint8_t count) {
     for (uint8_t i = 0; i < count; ++i)
         destination[i] = (uint8_t) (source >> (8u * (count - i - 1u)));
 }
@@ -507,7 +496,7 @@ void BDP::bytesToLength(uint64_t &destination, const uint8_t* source, uint8_t co
 }
 
 // The most common cases are 4 and 1, so order the if statements in their favor.
-void BDP::directLengthToBytes(uint8_t* &destination, uint64_t source, uint8_t count) {
+void BDP::directLengthToBytes(uint8_t* destination, uint64_t source, uint8_t count) {
     if(count == 4u)
         *reinterpret_cast<uint32_t*>(destination) = *reinterpret_cast<uint32_t*>(&source);
     else if(count == 1u)

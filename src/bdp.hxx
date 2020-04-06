@@ -1079,7 +1079,7 @@ namespace BDP {
      * @param[in] source The value to convert.
      * @param[in] count The number of bytes to convert the value to.
      */
-    void lengthToBytes(uint8_t* &destination, uint64_t source, uint8_t count);
+    void lengthToBytes(uint8_t* destination, uint64_t source, uint8_t count);
 
     /**
      * Converts a byte array to an unsigned integer.
@@ -1097,7 +1097,7 @@ namespace BDP {
      * @param[in] source The value to convert.
      * @param[in] count The number of bytes to convert the value to.
      */
-    void directLengthToBytes(uint8_t* &destination, uint64_t source, uint8_t count);
+    void directLengthToBytes(uint8_t* destination, uint64_t source, uint8_t count);
 
     /**
      * Directly converts a byte array to an unsigned integer.
