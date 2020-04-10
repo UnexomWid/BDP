@@ -5,7 +5,7 @@
 # About <a href="https://en.wikipedia.org/wiki/C%2B%2B17"><img align="right" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=C%2B%2B" alt="C++ 17" /></a>
 **BDP** (_Binary Data Package_) is a basic 64 bit packaging format for binary data.
 
-This is a cross-platform C++ implementation of BDP.
+This is a cross-platform C++17 implementation of BDP.
 
 # License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
 The BDP format was created by [UnexomWid](https://uw.exom.dev). The format and this C++ implementation are both licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
