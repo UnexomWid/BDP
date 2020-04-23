@@ -209,10 +209,10 @@ size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, std::ostream &ou
 
     auto buffer = std::make_unique<char[]>(static_cast<size_t>(bufferSize));
 
+    std::streampos lastPos = output.tellp();
+
     // Write a placeholder value, as the actual length is unknown yet.
     output.write(reinterpret_cast<char*>(&inputLength), lengthByteSize);
-
-    std::streampos lastPos = output.tellp();
 
     while((diff = maxLength - inputLength) != 0u && !data.eof()) {
         nextLength = diff < bufferSize ? diff : bufferSize;
