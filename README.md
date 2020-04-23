@@ -8,7 +8,7 @@
 This is a cross-platform C++17 implementation of BDP.
 
 # License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
-The BDP format was created by [UnexomWid](https://uw.exom.dev). The format and this C++ implementation are both licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
+The BDP format was created by [UnexomWid](https://uw.exom.dev). This format, along with this C++ implementation, is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
 
 # Releases
 
