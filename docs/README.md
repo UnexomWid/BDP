@@ -2,8 +2,6 @@
 
 This is the official documentation for the [C++17 BDP implementation](https://github.com/UnexomWid/BDP).
 
-This documentation is only for the implementation code.
-
 # Namespace
 
 All of the functions and structures are inside the `BDP` namespace.

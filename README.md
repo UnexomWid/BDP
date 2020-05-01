@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/logo.png" alt="BDP">
+  <img src="public/logo.png" alt="BDP">
 </p>
 
 # About <a href="https://en.wikipedia.org/wiki/C%2B%2B17"><img align="right" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=C%2B%2B" alt="C++ 17" /></a>
@@ -92,5 +92,5 @@ This is an arbitrary **BDP832** package which contains information about a user 
 > Value Bit Size: **32**
 
 <p align="center">
-   <img src="img/bdp832.png" alt="BDP">
+   <img src="public/bdp832.png" alt="BDP">
 </p>
