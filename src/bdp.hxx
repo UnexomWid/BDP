@@ -1073,7 +1073,7 @@ namespace BDP {
     bool isLittleEndian();
 
     /**
-     * Converts an unsigned integer to a byte array.
+     * Converts an unsigned integer representing a length to a byte array.
      *
      * @param[out] destination The byte array where to store the converted value.
      * @param[in] source The value to convert.
@@ -1082,7 +1082,7 @@ namespace BDP {
     void lengthToBytes(uint8_t* destination, size_t source, uint8_t count);
 
     /**
-     * Converts a byte array to an unsigned integer.
+     * Converts a byte array to an unsigned integer representing a length.
      *
      * @param[out] destination The variable where to store the converted byte array.
      * @param[in] source The byte array to convert.
@@ -1091,13 +1091,31 @@ namespace BDP {
     void bytesToLength(size_t &destination, const uint8_t* source, uint8_t count);
 
     /**
+     * Converts an unsigned integer to a byte array, in reverse.
+     *
+     * @param[out] destination The byte array where to store the converted value.
+     * @param[in] source The value to convert.
+     * @param[in] count The number of bytes to convert the value to.
+     */
+    void reversedValueToBytes(uint8_t* destination, size_t source, uint8_t count);
+
+    /**
+     * Converts a byte array to an unsigned integer, in reverse.
+     *
+     * @param[out] destination The variable where to store the converted byte array.
+     * @param[in] source The byte array to convert.
+     * @param[in] count The number of bytes to convert to an unsigned integer.
+     */
+    void reversedBytesToValue(size_t &destination, const uint8_t* source, uint8_t count);
+
+    /**
      * Directly converts an unsigned integer to a byte array.
      *
      * @param[out] destination The byte array where to store the converted value.
      * @param[in] source The value to convert.
      * @param[in] count The number of bytes to convert the value to.
      */
-    void directLengthToBytes(uint8_t* destination, size_t source, uint8_t count);
+    void valueToBytes(uint8_t* destination, size_t source, uint8_t count);
 
     /**
      * Directly converts a byte array to an unsigned integer.
@@ -1106,7 +1124,7 @@ namespace BDP {
      * @param[in] source The byte array to convert.
      * @param[in] count The number of bytes to convert to an unsigned integer.
      */
-    void directBytesToLength(size_t &destination, const uint8_t* source, uint8_t count);
+    void bytesToValue(size_t &destination, const uint8_t* source, uint8_t count);
 }
 
 #endif

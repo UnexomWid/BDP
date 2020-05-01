@@ -180,7 +180,7 @@ size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, std::ostream &ou
         output.write(reinterpret_cast<char*>(&dataLength), lengthByteSize);
     } else {
         auto dataLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
-        lengthToBytes(dataLengthBytes.get(), dataLength, lengthByteSize);
+        reversedValueToBytes(dataLengthBytes.get(), dataLength, lengthByteSize);
 
         output.write((char*) (&dataLengthBytes[0]), lengthByteSize);
     }
@@ -190,11 +190,7 @@ size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, std::ostream &ou
     return lengthByteSize + dataLength;
 }
 size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, uint8_t* output, const uint8_t* data, size_t dataLength) {
-    checkByteSize(lengthByteSize);
-
-    if(isLittleEndian())
-        directLengthToBytes(output, dataLength, lengthByteSize);
-    else lengthToBytes(output, dataLength, lengthByteSize);
+    lengthToBytes(output, dataLength, lengthByteSize);
 
     memcpy(output + lengthByteSize, data, static_cast<size_t>(dataLength));
 
@@ -229,7 +225,7 @@ size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, std::ostream &ou
         output.write(reinterpret_cast<char*>(&inputLength), lengthByteSize);
     } else {
         auto inputLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
-        lengthToBytes(inputLengthBytes.get(), inputLength, lengthByteSize);
+        reversedValueToBytes(inputLengthBytes.get(), inputLength, lengthByteSize);
 
         output.write((char*) (&inputLengthBytes[0]), lengthByteSize);
     }
@@ -239,15 +235,13 @@ size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, std::ostream &ou
     return lengthByteSize + inputLength;
 }
 size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, uint8_t* output, std::istream &data, size_t bufferSize) {
-    checkByteSize(lengthByteSize);
-
     size_t inputLength = 0u;
     size_t index = 0;
     size_t diff;
     size_t nextLength;
 
     // Write a placeholder value, as the actual length is unknown.
-    directLengthToBytes(output, inputLength, lengthByteSize);
+    lengthToBytes(output, inputLength, lengthByteSize);
 
     index += lengthByteSize;
 
@@ -260,9 +254,7 @@ size_t BDP::writeData(size_t maxLength, uint8_t lengthByteSize, uint8_t* output,
     }
 
     // Write the actual length.
-    if(isLittleEndian())
-        directLengthToBytes(output, inputLength, lengthByteSize);
-    else lengthToBytes(output, inputLength, lengthByteSize);
+    lengthToBytes(output, inputLength, lengthByteSize);
 
     return lengthByteSize + inputLength;
 }
@@ -428,7 +420,7 @@ size_t BDP::readData(uint8_t lengthByteSize, std::istream &input, uint8_t* &outp
         auto outputLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
         input.read((char*) outputLengthBytes.get(), lengthByteSize);
 
-        bytesToLength(length, outputLengthBytes.get(), lengthByteSize);
+        reversedBytesToValue(length, outputLengthBytes.get(), lengthByteSize);
     }
 
     input.read((char*) (&output[0]), length);
@@ -439,13 +431,9 @@ size_t BDP::readData(uint8_t lengthByteSize, std::istream &input, uint8_t* &outp
     return lengthByteSize + length;
 }
 size_t BDP::readData(uint8_t lengthByteSize, const uint8_t* input, uint8_t* &output, size_t* outputLength) {
-    checkByteSize(lengthByteSize);
-
     size_t length = 0u;
 
-    if(isLittleEndian())
-        directBytesToLength(length, input, lengthByteSize);
-    else bytesToLength(length, input, lengthByteSize);
+    bytesToLength(length, input, lengthByteSize);
 
     memcpy(output, input + lengthByteSize, static_cast<size_t>(length));
 
@@ -465,7 +453,7 @@ size_t BDP::readData(uint8_t lengthByteSize, std::istream &input, std::ostream &
         auto outputLengthBytes = std::make_unique<uint8_t[]>(lengthByteSize);
         input.read((char*) outputLengthBytes.get(), lengthByteSize);
 
-        bytesToLength(length, outputLengthBytes.get(), lengthByteSize);
+        reversedBytesToValue(length, outputLengthBytes.get(), lengthByteSize);
     }
 
     auto buffer = std::make_unique<char[]>(static_cast<size_t>(bufferSize));
@@ -481,13 +469,9 @@ size_t BDP::readData(uint8_t lengthByteSize, std::istream &input, std::ostream &
     return lengthByteSize + length;
 }
 size_t BDP::readData(uint8_t lengthByteSize, const uint8_t* input, std::ostream &output, size_t* outputLength) {
-    checkByteSize(lengthByteSize);
-
     size_t length = 0u;
 
-    if(isLittleEndian())
-        directBytesToLength(length, input, lengthByteSize);
-    else bytesToLength(length, input, lengthByteSize);
+    bytesToLength(length, input, lengthByteSize);
 
     output.write((char*) (input + lengthByteSize), length);
 
@@ -519,18 +503,39 @@ bool BDP::isLittleEndian() {
 }
 
 void BDP::lengthToBytes(uint8_t* destination, size_t source, uint8_t count) {
-    for (uint8_t i = 0; i < count; ++i)
-        destination[i] = (uint8_t) (source >> (8u * (count - i - 1u)));
+    checkByteSize(count);
+
+    if(isLittleEndian())
+        valueToBytes(destination, source, count);
+    else reversedValueToBytes(destination, source, count);
 }
 
 void BDP::bytesToLength(size_t &destination, const uint8_t* source, uint8_t count) {
-    destination = 0u;
-    for (uint8_t i = 0; i < count; ++i)
-        destination |= (((size_t) source[i]) << (8u * (count - i - 1u)));
+    checkByteSize(count);
+
+    if(isLittleEndian())
+        bytesToValue(destination, source, count);
+    else reversedBytesToValue(destination, source, count);
+}
+
+void BDP::reversedValueToBytes(uint8_t* destination, size_t source, uint8_t count) {
+    uint8_t* src = reinterpret_cast<uint8_t*>(&source);
+    destination += count - 1;
+
+    while(count--)
+        *destination-- = *src++;
+}
+
+void BDP::reversedBytesToValue(size_t &destination, const uint8_t* source, uint8_t count) {
+    uint8_t* dst = reinterpret_cast<uint8_t*>(&destination);
+    dst += count - 1;
+
+    while(count--)
+        *dst-- = *source++;
 }
 
 // The most common cases are 4 and 1, so order the if statements in their favor.
-void BDP::directLengthToBytes(uint8_t* destination, size_t source, uint8_t count) {
+void BDP::valueToBytes(uint8_t* destination, size_t source, uint8_t count) {
     if(count == 4u)
         *reinterpret_cast<uint32_t*>(destination) = *reinterpret_cast<uint32_t*>(&source);
     else if(count == 1u)
@@ -540,12 +545,13 @@ void BDP::directLengthToBytes(uint8_t* destination, size_t source, uint8_t count
     else *reinterpret_cast<uint16_t*>(destination) = *reinterpret_cast<uint16_t*>(&source);
 }
 
-void BDP::directBytesToLength(size_t &destination, const uint8_t* source, uint8_t count) {
+// The most common cases are 4 and 1, so order the if statements in their favor.
+void BDP::bytesToValue(size_t &destination, const uint8_t* source, uint8_t count) {
     if(count == 4u)
         destination = *reinterpret_cast<const uint32_t*>(source);
     else if(count == 1u)
         destination = *source;
     else if(count == 8u)
-        destination = static_cast<size_t>(*reinterpret_cast<const uint64_t*>(source));
+        destination = *reinterpret_cast<const uint64_t*>(source);
     else destination = *reinterpret_cast<const uint16_t*>(source);
 }
