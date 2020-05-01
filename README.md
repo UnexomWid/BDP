@@ -16,7 +16,7 @@ The BDP format was created by [UnexomWid](https://uw.exom.dev). This format, alo
 
 None.
 
-# BDP
+# BDP Format
 BDP packages store _name-value_ pairs, where the name and the value contain binary data (_i.e. they can contain plain text, files, etc_).
 
 The maximum size of the names and values is determined by the package _header_.
@@ -94,3 +94,7 @@ This is an arbitrary **BDP832** package which contains information about a user 
 <p align="center">
    <img src="public/bdp832.png" alt="BDP">
 </p>
+
+# Documentation
+
+The code documentation for this implementation can be found [here](https://github.com/UnexomWid/BDP/tree/master/docs).
