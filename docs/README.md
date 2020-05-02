@@ -1782,7 +1782,7 @@ Returns the maximum value of a length that can be stored with a specified amount
 
 The maximum value that can be stored with the specified amount of bits.
 
-###### Remarks
+##### Remarks
 
 - the valid bit sizes are `8`, `16`, `32` and `64`.
 
