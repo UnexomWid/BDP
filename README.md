@@ -94,7 +94,7 @@ The code documentation for this implementation can be found [here](https://githu
 
 >Note: versions with the suffix **R** are considered stable releases, while those with the suffix **D** are considered unstable.
 
-None.
+[v0.1.0D](https://github.com/UnexomWid/BDP/releases/tag/v0.1.0D) - May 2nd, 2020
 
 # License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
 The BDP format was created by [UnexomWid](https://uw.exom.dev). This format, along with this C++ implementation, is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
