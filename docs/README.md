@@ -2,6 +2,34 @@
 
 This is the official documentation for the [C++17 BDP implementation](https://github.com/UnexomWid/BDP).
 
+# Table of Contents
+
+[Namespace](#namespace)  
+[Header](#header)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Constructor](#constructor)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Fields](#fields)  
+[Reading Data](#reading-data)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[readHeader](#readheader)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[readName](#readname)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[readValue](#readvalue)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[readPair](#readpair)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[readData](#readdata)  
+[Writing Data](#writing-data)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[writeHeader](#writeheader)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[writeName](#writename)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[writeValue](#writevalue)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[writePair](#writepair)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[writeData](#writedata)  
+[Helpers](#helpers)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[getMaxLength](#getmaxlength)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[isLittleEndian](#islittleendian)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[lengthToBytes](#lengthtobytes)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[bytesToLength](#bytestolength)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[valueToBytes](#valuetobytes)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[bytesToValue](#bytestovalue)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[reversedValueToBytes](#reversedvaluetobytes)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[reversedBytesToValue](#reversedbytestovalue)  
+
 # Namespace
 
 All of the functions and structures are inside the `BDP` namespace.
@@ -1735,3 +1763,149 @@ How many bytes were written to the output, including the data length bytes.
 - the specified buffer size will be used
 
 - the length byte size should be `1`, `2`, `4` or `8`.
+
+# Helpers
+
+## getMaxLength
+
+```cpp
+size_t getMaxLength(uint8_t lengthBitSize)
+```
+
+Returns the maximum value of a length that can be stored with a specified amount of bits.
+
+##### Params
+
+- **lengthBitSize** - the bit size to get the maximum value of
+
+##### Returns
+
+The maximum value that can be stored with the specified amount of bits.
+
+###### Remarks
+
+- the valid bit sizes are `8`, `16`, `32` and `64`.
+
+## isLittleEndian
+
+```cpp
+bool isLittleEndian()
+```
+
+Checks whether or not the endianness of the architecture is little-endian.
+
+##### Returns
+
+True if the architecture uses little endian. False otherwise.
+
+## lengthToBytes
+
+```cpp
+void lengthToBytes(uint8_t* destination,
+                   size_t source,
+                   uint8_t count)
+```
+
+Converts an unsigned integer representing a length to a little-endian byte array.
+
+##### Params
+
+- **destination** - the byte array where to store the converted value. Must be large enough to contain the value
+- **source** - the value to convert
+- **count** - the number of bytes to convert the value to
+
+## bytesToLength
+
+```cpp
+void bytesToLength(size_t& destination,
+                   const uint8_t* source,
+                   uint8_t count)
+```
+
+Converts a little-endian byte array to an unsigned integer representing a length.
+
+##### Params
+
+- **destination** - the variable where to store the converted byte array
+- **source** - the byte array to convert
+- **count** - the number of bytes to convert to an unsigned integer
+
+## valueToBytes
+
+```cpp
+void valueToBytes(uint8_t* destination,
+                  size_t source,
+                  uint8_t count)
+```
+
+Converts an unsigned integer to a byte array.
+
+##### Params
+
+- **destination** - the byte array where to store the converted value. Must be large enough to contain the value
+- **source** - the value to convert
+- **count** - the number of bytes to convert the value to
+
+##### Remarks
+
+- this function should be used to convert from a little-endian value to a little-endian byte array, or a big-endian value to a big-endian byte array
+
+## bytesToValue
+
+```cpp
+void bytesToValue(size_t& destination,
+                  const uint8_t* source,
+                  uint8_t count)
+```
+
+Converts a byte array to an unsigned integer.
+
+##### Params
+
+- **destination** - the variable where to store the converted byte array
+- **source** - the byte array to convert
+- **count** - the number of bytes to convert to an unsigned integer
+
+##### Remarks
+
+- this function should be used to convert from a little-endian byte array to a little-endian value, or a big-endian byte array to a big-endian value
+
+## reversedValueToBytes
+
+```cpp
+void valueToBytes(uint8_t* destination,
+                  size_t source,
+                  uint8_t count)
+```
+
+Converts an unsigned integer to a byte array, in reversed order.
+
+##### Params
+
+- **destination** - the byte array where to store the converted value. Must be large enough to contain the value
+- **source** - the value to convert
+- **count** - the number of bytes to convert the value to
+
+##### Remarks
+
+- this function should be used to convert from a little-endian value to a big-endian byte array, or a big-endian value to a little-endian byte array
+
+## reversedBytesToValue
+
+```cpp
+void bytesToValue(size_t& destination,
+                  const uint8_t* source,
+                  uint8_t count)
+```
+
+Converts a byte array to an unsigned integer, in reversed order.
+
+##### Params
+
+- **destination** - the variable where to store the converted byte array
+- **source** - the byte array to convert
+- **count** - the number of bytes to convert to an unsigned integer
+
+##### Remarks
+
+- this function should be used to convert from a little-endian byte array to a big-endian value, or a big-endian byte array to a little-endian value
