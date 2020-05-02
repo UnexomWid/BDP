@@ -7,15 +7,6 @@
 
 This is a cross-platform C++17 implementation of BDP.
 
-# License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
-The BDP format was created by [UnexomWid](https://uw.exom.dev). This format, along with this C++ implementation, is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
-
-# Releases
-
->Note: versions with the suffix **R** are considered stable releases, while those with the suffix **D** are considered unstable.
-
-None.
-
 # BDP Format
 BDP packages store _name-value_ pairs, where the name and the value contain binary data (_i.e. they can contain plain text, files, etc_).
 
@@ -98,3 +89,12 @@ This is an arbitrary **BDP832** package which contains information about a user 
 # Documentation
 
 The code documentation for this implementation can be found [here](https://github.com/UnexomWid/BDP/tree/master/docs).
+
+# Releases
+
+>Note: versions with the suffix **R** are considered stable releases, while those with the suffix **D** are considered unstable.
+
+None.
+
+# License <a href="https://github.com/UnexomWid/BDP/blob/master/LICENSE"><img align="right" src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+The BDP format was created by [UnexomWid](https://uw.exom.dev). This format, along with this C++ implementation, is licensed under the [MIT](https://github.com/UnexomWid/BDP/blob/master/LICENSE) license.
