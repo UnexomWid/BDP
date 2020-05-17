@@ -78,7 +78,7 @@ const uint8_t VALUE_LENGTH_BYTE_SIZE;
 
 - **NAME_LENGTH_BYTE_SIZE** - the name length byte size: `NAME_LENGTH_BIT_SIZE / 8`
 
-- **VALUE_LENGTH_BYTE_SIZE** - the value length bit size: `VALUE_LENGTH_BIT_SIZE / 8`
+- **VALUE_LENGTH_BYTE_SIZE** - the value length byte size: `VALUE_LENGTH_BIT_SIZE / 8`
 
 # Reading Data
 
