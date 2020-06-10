@@ -43,7 +43,7 @@ ValueLength = 4(%x00-FF) ; 1, 2, 4 or 8, depending on the value byte size
 Value       = *(%x00-FF)
 ```
 
-For other BDP package types, the `Header`, `NameLength` and `Value` rules vary.
+For other BDP package types, the `Header`, `NameLength` and `ValueLength` rules vary.
 
 This repository contains ABNF notations for every package type [here](https://github.com/UnexomWid/BDP/tree/master/grammar).
 
