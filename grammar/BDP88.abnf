@@ -1,0 +1,15 @@
+BDP         = Magic Header *Entry
+
+Magic       = %s"BDP"
+Header      = %x11
+
+Entry       = NameEntry ValueEntry
+
+NameEntry   = NameLength Name
+ValueEntry  = ValueLength Value
+
+NameLength  = 1(%x00-FF)
+Name        = *(%x00-FF)
+
+ValueLength = 1(%x00-FF)
+Value       = *(%x00-FF)

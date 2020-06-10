@@ -45,7 +45,7 @@ Value       = *(%x00-FF)
 
 For other BDP package types, the `Header`, `NameLength` and `Value` rules vary.
 
-This repository contains ABNF notations for every package type.
+This repository contains ABNF notations for every package type [here](https://github.com/UnexomWid/BDP/tree/master/grammar).
 
 ## Magic value
 
