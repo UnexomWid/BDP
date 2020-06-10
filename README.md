@@ -9,13 +9,13 @@ This is a cross-platform C++17 implementation of BDP.
 
 # BDP Format
 
-BDP packages store _name-value_ pairs, where the name and the value contain binary data (_i.e. they can contain plain text, files, etc_).
+BDP packages store _name-value_ pairs, where the name and the value contain binary data.
 
 The maximum size of the names and values is determined by the package _header_.
 
 > BDP is a **64 bit** format (_i.e. the maximum possible size of a name/value is **2^64 - 1**_).
 >
-> However, package names and values values can be stored with an **8, 16, 32 or 64 bit** format.
+> However, package names and values can be stored with an **8, 16, 32 or 64 bit** format.
 >
 > The name/value bit size is specified in the package _header_.
 
