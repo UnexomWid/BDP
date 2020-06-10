@@ -29,17 +29,17 @@ This is the ABNF notation for BDP832 (see below [package types](https://github.c
 BDP         = Magic Header *Entry
 
 Magic       = %s"BDP"
-Header      = %x14
+Header      = %x14       ; depends on the package type
 
 Entry       = NameEntry ValueEntry
 
 NameEntry   = NameLength Name
 ValueEntry  = ValueLength Value
 
-NameLength  = 1(%x00-FF)
+NameLength  = 1(%x00-FF) ; 1, 2, 4 or 8, depending on the name byte size
 Name        = *(%x00-FF)
 
-ValueLength = 4(%x00-FF)
+ValueLength = 4(%x00-FF) ; 1, 2, 4 or 8, depending on the value byte size
 Value       = *(%x00-FF)
 ```
 
