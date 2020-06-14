@@ -23,7 +23,7 @@ The maximum size of the names and values is determined by the package _header_.
 
 The most common BDP package type is **BDP832** (meaning **8 bits** for the name length & **32 bits** for the value length).
 
-This is the ABNF notation for BDP832 (see below [package types](https://github.com/UnexomWid/BDP#complete-table-of-package-types)).
+This is the ABNF notation for **BDP832** (see below [package types](https://github.com/UnexomWid/BDP#complete-table-of-package-types)).
 
 ```abnf
 BDP         = Magic Header *Entry
